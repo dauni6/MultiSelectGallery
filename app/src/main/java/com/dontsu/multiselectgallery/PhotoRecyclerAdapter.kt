@@ -4,8 +4,6 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_item_recycler.view.*
 
@@ -38,6 +36,7 @@ class PhotoRecyclerAdapter : RecyclerView.Adapter<PhotoRecyclerAdapter.PhotoView
 
         init {
             itemView.deleteBtn.setOnClickListener {
+                //해당 이미지 삭제
                 if (photoList.contains(currentUri)) {
                     photoList.remove(currentUri)
                     notifyDataSetChanged()

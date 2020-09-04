@@ -114,4 +114,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun showImageListCount(count: String) {
+        photo_count.text = count
+    }
+
 }
