@@ -9,6 +9,7 @@ import kotlinx.android.synthetic.main.view_item_recycler.view.*
 
 class PhotoRecyclerAdapter : RecyclerView.Adapter<PhotoRecyclerAdapter.PhotoViewHolder>() {
     var photoList = arrayListOf<Uri>()
+    var photoVM : PhotoViewModel? = null
 
     fun updatePhotoList(newList: ArrayList<Uri>) {
         photoList.clear()
@@ -40,6 +41,7 @@ class PhotoRecyclerAdapter : RecyclerView.Adapter<PhotoRecyclerAdapter.PhotoView
                 if (photoList.contains(currentUri)) {
                     photoList.remove(currentUri)
                     notifyDataSetChanged()
+                    photoVM?.photoList?.value = "${photoList.size}/10"
                 }
             }
         }

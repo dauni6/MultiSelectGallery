@@ -9,10 +9,12 @@ import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.ViewModelProvider
+import com.dontsu.multiselectgallery.databinding.ActivityMainBinding
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import kotlinx.android.synthetic.main.activity_main.*
@@ -29,6 +31,8 @@ import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
 
+    lateinit var photoVM: PhotoViewModel
+
     private val permissions = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE,
         Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -42,11 +46,15 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        val binding: ActivityMainBinding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
+        binding.lifecycleOwner = this@MainActivity
+        photoVM = ViewModelProvider(this@MainActivity, ViewModelProvider.NewInstanceFactory()).get(PhotoViewModel::class.java)
+        binding.viewModel = photoVM
 
         adapter = PhotoRecyclerAdapter()
         recycler_photo.adapter = adapter
-
+        adapter.photoVM = photoVM
 
         addBtn.setOnClickListener {
             if (checkPermission()) {

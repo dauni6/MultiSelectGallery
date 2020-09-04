@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -22,7 +23,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
 }
+
+def lifecycle_version = "2.2.0"
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -41,6 +49,10 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.0'
     //matisse
     implementation 'com.zhihu.android:matisse:0.5.3-beta3'
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
 
     testImplementation 'junit:junit:4.12'
