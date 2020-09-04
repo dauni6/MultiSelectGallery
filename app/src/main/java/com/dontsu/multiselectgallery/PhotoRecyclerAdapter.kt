@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.view_item_recycler.view.*
 
-class PhotoRecyclerAdapter : RecyclerView.Adapter<PhotoViewHolder>() {
+class PhotoRecyclerAdapter : RecyclerView.Adapter<PhotoRecyclerAdapter.PhotoViewHolder>() {
     var photoList = arrayListOf<Uri>()
 
     fun updatePhotoList(newList: ArrayList<Uri>) {
@@ -33,18 +33,25 @@ class PhotoRecyclerAdapter : RecyclerView.Adapter<PhotoViewHolder>() {
         holder.setImage(image)
     }
 
-}
+    inner class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private var currentUri: Uri? = null
 
-class PhotoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-    init {
-        itemView.deleteBtn.setOnClickListener {
-            Toast.makeText(itemView.context, "삭제버튼", Toast.LENGTH_SHORT).show()
+        init {
+            itemView.deleteBtn.setOnClickListener {
+                if (photoList.contains(currentUri)) {
+                    photoList.remove(currentUri)
+                    notifyDataSetChanged()
+                }
+            }
         }
+
+        fun setImage(uri: Uri) {
+            itemView.itemImage.loadUrl(uri)
+            currentUri = uri
+        }
+
     }
 
-    fun setImage(uri: Uri) {
-        itemView.itemImage.loadUrl(uri)
-    }
 
 }
+
